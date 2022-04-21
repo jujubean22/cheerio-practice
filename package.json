@@ -12,7 +12,8 @@
     "nodemon": "^2.0.15"
   },
   "scripts": {
-    "start": "nodemon cheerio.js"
+    "start": "nodemon cheerio.js",
+    "start2": "nodemon under-armour.js"
   },
   "keywords": [],
   "author": "",

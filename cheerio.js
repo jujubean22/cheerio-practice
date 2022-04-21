@@ -1,3 +1,4 @@
+const PORT = 8000
 const cheerio = require("cheerio");
 const axios = require("axios");
 const express = require("express");
@@ -10,6 +11,9 @@ axios(url)
     const html = response.data;
     const $ = cheerio.load(html);
     let rapplerLatest = [];
+    const length = $(".archive-article__content", html).children('h2').prev()
+
+    // console.log(`Aritcles are ${length} long`);
 
     $(".archive-article__content", html).each((i, el) => {
       const category = $(el)
@@ -30,6 +34,7 @@ axios(url)
         link
       });
     });
+
     app.get('/', function (req, res) {
       res.send(rapplerLatest)
     })
@@ -38,7 +43,7 @@ axios(url)
   .catch((err) => console.log(err));
 
 
-app.listen(8000, () => console.log("server running in port 8000"));
+app.listen(PORT, () => console.log(`"server running in port ${PORT}`));
 
 /*
 ####### REGEX EXPLANATION FOR TITLE IN RAPPLER Array #######
@@ -50,3 +55,5 @@ Global pattern flags
 g modifier: global. All matches (don't return after first match)
 SOURCE: regex101
 */
+
+//#maincontent > div > div.l-plp > div.l-plp-container.women-clothing-tops > div.l-plp-content > div.l-plp-products_container > div.b-products_grid.js-products_grid
