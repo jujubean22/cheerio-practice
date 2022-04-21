@@ -13,7 +13,8 @@
   },
   "scripts": {
     "start": "nodemon cheerio.js",
-    "start2": "nodemon under-armour.js"
+    "start2": "nodemon under-armour.js",
+    "start3": "nodemon under-armour-alltops.js"
   },
   "keywords": [],
   "author": "",

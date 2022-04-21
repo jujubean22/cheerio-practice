@@ -1,13 +1,27 @@
-const PORT = 3030
+const PORT = 3008
 const cheerio = require("cheerio");
 const axios = require("axios");
 const express = require("express");
 const app = express();
+let pages = []
+let newArr = []
 
-async function underArmour () {
+function getPageNumber() {
+  for (let i = 0; i <= 228; i +=12) {
+    pages.push(i);
+  } 
+}
+
+function getAllProducts() {
+  for (let i = 0; i < pages.length; i++) {
+    underArmour(pages[i])
+  }
+}
+
+async function underArmour(p) {
   try {
-    let UAtops = []
-    const site = "https://www.underarmour.com.sg/en-sg/c/womens/clothing/tops/"
+    let UAtops =  []
+    const site = `https://www.underarmour.com.sg/en-sg/c/womens/clothing/tops/?start=${p}&sz=12`
     const baseUrl ="https://www.underarmour.com.sg"
 
     const { data } = await axios ({
@@ -20,8 +34,8 @@ async function underArmour () {
     $(topSelector).each((i, el) => {
       const link = `${baseUrl}${$(el).find('a').attr('href')}`
       const name = $(el).find('.b-tile-name').text()
-      const price = $(el).find(".b-price").text().replace(/(\n)/g, "")
-      console.log(price)
+      const price = $(el).find(".b-price").text().replace(/(\n|\n)/g, "")
+      // console.log(price)
       UAtops.push({
         price,
         name,
@@ -29,18 +43,24 @@ async function underArmour () {
       });
       
     })
-  return UAtops;
+    newArr.push(UAtops);
+    console.log(newArr.flat().length);
+  return newArr;
   } catch (error) {
     
   }
 }
 
+getPageNumber()
+getAllProducts()
+underArmour() 
+
 app.get('/', async(req, res) => {
   try {
-    const UAtops = await underArmour()
+    const UAtopsAll = await newArr.flat()
 
     return res.status(200).json({
-      result: UAtops
+      result: UAtopsAll
     })
     
   } catch (error) {
