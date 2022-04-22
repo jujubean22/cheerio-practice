@@ -7,7 +7,7 @@ let pages = []
 let newArr = []
 
 function getPageNumber() {
-  for (let i = 0; i <= 228; i +=12) {
+  for (let i = 0; i <= 300; i +=12) {
     pages.push(i);
   } 
 }
