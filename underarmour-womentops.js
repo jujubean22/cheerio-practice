@@ -21,7 +21,7 @@ function getAllProducts() {
 async function underArmour(p) {
   try {
     let UAtops =  []
-    const site = `https://www.underarmour.com.sg/en-sg/c/womens/clothing/tops/?start=${p}&sz=12`
+    const site = `https://www.underarmour.com.sg/en-sg/c/womens/clothing/tops/?start=${p}`
     const baseUrl ="https://www.underarmour.com.sg"
 
     const { data } = await axios ({
@@ -35,17 +35,15 @@ async function underArmour(p) {
       const link = `${baseUrl}${$(el).find('a').attr('href')}`
       const name = $(el).find('.b-tile-name').text()
       const price = $(el).find(".b-price").text().replace(/(\n|\n)/g, "")
-      // console.log(price)
       UAtops.push({
         price,
         name,
         link
       });
-      
     })
     newArr.push(UAtops);
     console.log(newArr.flat().length);
-  return newArr;
+    return newArr;
   } catch (error) {
     
   }
@@ -55,9 +53,9 @@ getPageNumber()
 getAllProducts()
 underArmour() 
 
-app.get('/', async(req, res) => {
+app.get('/',  (req, res) => {
   try {
-    const UAtopsAll = await newArr.flat()
+    const UAtopsAll =  newArr.flat()
 
     return res.status(200).json({
       result: UAtopsAll
