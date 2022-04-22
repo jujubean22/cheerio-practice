@@ -18,7 +18,7 @@ function getAllProducts() {
   }
 }
 
-async function underArmour(p) {
+async function underArmour(p=12) {
   try {
     let UAtops =  []
     const site = `https://www.underarmour.com.sg/en-sg/c/womens/clothing/tops/?start=${p}`
@@ -35,10 +35,13 @@ async function underArmour(p) {
       const link = `${baseUrl}${$(el).find('a').attr('href')}`
       const name = $(el).find('.b-tile-name').text()
       const price = $(el).find(".b-price").text().replace(/(\n|\n)/g, "")
+      const image = `${$(el).find('a > picture > img').attr('data-src')}`
+      // console.log(image);
       UAtops.push({
         price,
         name,
-        link
+        link,
+        image
       });
     })
     newArr.push(UAtops);
@@ -58,7 +61,7 @@ app.get('/',  (req, res) => {
     const UAtopsAll =  newArr.flat()
 
     return res.status(200).json({
-      result: UAtopsAll
+      UAwomen_tops: UAtopsAll
     })
     
   } catch (error) {
